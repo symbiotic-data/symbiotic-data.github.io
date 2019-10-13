@@ -12,3 +12,6 @@
     - [Size](testsuitetypes.md#size)
     - [AvailableTopics](testsuitetypes.md#availabletopics)
     - [Generating](testsuitetypes.md#generating)
+    - [Operating](testsuitetypes.md#operating)
+    - [First](testsuitetypes.md#first)
+    - [Second](testsuitetypes.md#second)

@@ -174,3 +174,146 @@ encodeBinary x = case x of
 ```
 
 Where `byteStringWithLength` prefixes the `ByteString`'s byte-length as a 32-bit integer.
+
+
+## Operating
+
+An `Operating` message is sent by the peer doing the operating, and received by the peer that generated.
+
+```haskell
+data Operating target
+  = Operated (result :: target)
+  | NoParseValue (value :: target)
+  | NoParseOperation (operation :: target)
+```
+
+### JSON
+
+```haskell
+encodeJson :: Operating Json -> Json
+encodeJson x = case x of
+  Operated result -> {"operated": result}
+  NoParseValue value -> {"noParseValue": value}
+  NoParseOperation operation -> {"noParseOperation": operation}
+```
+
+### Binary
+
+```haskell
+encodeBinary :: Operating ByteString -> ByteString
+encodeBinary x = case x of
+  Operated result ->
+    (byteAsByteString 0)
+      ++ (byteStringWithLength result)
+  NoParseValue value ->
+    (byteAsByteString 1)
+      ++ (byteStringWithLength value)
+  NoParseOperation operation ->
+    (byteAsByteString 2)
+      ++ (byteStringWithLength operation)
+```
+
+Where `byteStringWithLength` prefixes the `ByteString`'s byte-length as a 32-bit integer.
+
+## First
+
+These are the messages sent by the `First` party in the protocol.
+
+```haskell
+data First target
+  = Topics AvailableTopics
+  | FirstGenerating Topic (Generating target)
+  | FirstOperating Topic (Operating target)
+```
+
+### JSON
+
+```haskell
+encodeJson :: First Json -> Json
+encodeJson x = case x of
+  Topics availableTopics ->
+    {"availableTopics": encodeJson availableTopics}
+  FirstGenerating topic generating ->
+    { "firstGenerating":
+      { "topic": encodeJson topic
+      , "generating": encodeJson generating
+      }
+    }
+  FirstOperating topic operating ->
+    { "firstOperating":
+      { "topic": encodeJson topic
+      , "operating": encodeJson operating
+      }
+    }
+```
+
+### Binary
+
+```haskell
+encodeBinary :: First ByteString -> ByteString
+encodeBinary x = case x of
+  Topics availableTopics ->
+    (byteAsByteString 0)
+      ++ (encodeBinary availableTopics)
+  FirstGenerating topic generating ->
+    (byteAsByteString 1)
+      ++ (encodeBinary topic)
+      ++ (encodeBinary generating)
+  FirstOperating topic operating ->
+    (byteAsByteString 2)
+      ++ (encodeBinary topic)
+      ++ (encodeBinary operating)
+```
+
+## Second
+
+These are the messages sent by the `Second` party in the protocol.
+
+```haskell
+data Second target
+  = BadTopics AvailableTopics
+  | Start
+  | SecondOperating (Operating target)
+  | SecondGenerating (Generating target)
+```
+
+### JSON
+
+```haskell
+encodeJson :: Second Json -> Json
+encodeJson x = case x of
+  BadTopics availableTopics ->
+    {"badTopics": encodeJson availableTopics}
+  Start -> stringAsJson "start"
+  SecondOperating topic operating ->
+    { "secondOperating":
+      { "topic": encodeJson topic
+      , "operating": encodeJson operating
+      }
+    }
+  SecondGenerating topic generating ->
+    { "secondGenerating":
+      { "topic": encodeJson topic
+      , "generating": encodeJson generating
+      }
+    }
+```
+
+### Binary
+
+```haskell
+encodeBinary :: Second ByteString -> ByteString
+encodeBinary x = case x of
+  BadTopics availableTopics ->
+    (byteAsByteString 0)
+      ++ (encodeBinary availableTopics)
+  Start -> byteAsByteString 1
+  SecondOperating topic operating ->
+    (byteAsByteString 2)
+      ++ (encodeBinary topic)
+      ++ (encodeBinary operating)
+  SecondGenerating topic generating ->
+    (byteAsByteString 3)
+      ++ (encodeBinary topic)
+      ++ (encodeBinary generating)
+```
