@@ -11,3 +11,4 @@
     - [Topic](testsuitetypes.md#topic)
     - [Size](testsuitetypes.md#size)
     - [AvailableTopics](testsuitetypes.md#availabletopics)
+    - [Generating](testsuitetypes.md#generating)

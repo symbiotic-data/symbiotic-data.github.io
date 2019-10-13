@@ -39,5 +39,6 @@ There are plans for implementations for:
 - PHP
 - Ruby
 - Python
+- Go
 
 If you have any other requested implementations or contributions, feel free to open an issue or pull request!

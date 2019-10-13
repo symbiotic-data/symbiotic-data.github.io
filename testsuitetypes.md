@@ -118,3 +118,59 @@ encodeBinary (AvailableTopics ts) =
     pairToByteString :: (Topic, Size) -> ByteString
     pairToByteString (t,s) = (encodeBinary t) ++ (encodeBinary s)
 ```
+
+## Generating
+
+A `Generating` message is sent by the peer doing the generating, and received by the peer operating.
+There are a few options to consider - it's an enumerated type. Furthermore, it's defined here generically
+over its serialized type, but the idea is the same.
+
+```haskell
+data Generating target
+  = Generated (value :: target) (operation :: target)
+  | BadResult (result :: target)
+  | YourTurn
+  | ImFinished
+  | NoParseOperated (result :: target)
+```
+
+Note that we are not using type `T` or `OperationsOnT` here - we may have many different types to deal with,
+and therefore can't be constrained to one universal type. However, there is only one `Target` type over
+the `Socket` we communicate over, and can therefore be defined against that.
+
+### JSON
+
+This type's enumerated options are distinguished by varying keys in a JSON object.
+
+```haskell
+encodeJson :: Generating Json -> Json
+encodeJson x = case x of
+  Generated value operation -> {"generated": {"value": value, "operation": operation}}
+  BadResult result -> {"badResult": result}
+  YourTurn -> stringAsJson "yourTurn"
+  ImFinished -> stringAsJson "imFinished"
+  NoParseOperated result -> {"noParseOperated": result}
+```
+
+### Binary
+
+The different enumerated options will be distinguished by a varying initial byte flag.
+
+```haskell
+encodeBinary :: Generating ByteString -> ByteString
+encodeBinary x = case x of
+  Generated value operation ->
+    (byteAsByteString 0)
+      ++ (byteStringWithLength value)
+      ++ (byteStringWithLength operation)
+  BadResult result ->
+    (byteAsByteString 1)
+      ++ (byteStringWithLength result)
+  YourTurn -> byteAsByteString 2
+  ImFinished -> byteAsByteString 3
+  NoParseOperated result ->
+    (byteAsByteString 4)
+      ++ (byteStringWithLength result)
+```
+
+Where `byteStringWithLength` prefixes the `ByteString`'s byte-length as a 32-bit integer.
