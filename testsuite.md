@@ -89,3 +89,27 @@ tell it to stop? A `size` parameter, that's what.
 
 So, in our test suite, every data type we'll be verifying (through generation) __must__ have some maximum
 size (as an integer), which we'll approach starting from `0`.
+
+The first thing that our peers do is agree upon a set of types to test on, and their respective sizes -
+each peer will take a turn generating the data, incrementing their own counters until they each hit
+the maximum (around the same time). The type's name is used in the message, but for our intents and
+purposes, we'll call it a "topic", because it's just a string. If the programmer chooses to use a different
+topic than the type's name, then there's no issue, so long as both peers expect the same topic/size pairings.
+We'll call this message `AvailableTopics`, and it's sent by `First`.
+
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+```
+
+If `Peer B` disagrees with the topics or sizes, it'll throw an error, and reflect that error back to `Peer A`
+so it can explode loudly as well.
