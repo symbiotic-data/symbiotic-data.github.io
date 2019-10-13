@@ -9,7 +9,7 @@ UTF-8 encoded.
 data Topic = Topic String
 ```
 
-### Generation
+### Generate
 
 Generating Unicode strings can be tricky business. It is common for operating systems to treat surrogate
 characters as special, and should therefore be avoided. See [this Wikipedia article on UTF-16](https://en.wikipedia.org/wiki/UTF-16#U+D800_to_U+DFFF) (which is what JavaScript uses under-the-hood) for more details.
@@ -51,7 +51,7 @@ and we should use 32-bit integers whenever we need an `Int`.
 data Size = Size Int32
 ```
 
-### Generation
+### Generate
 
 ```haskell
 generate :: Gen Size
@@ -85,7 +85,7 @@ this could be a HashMap, a B-tree map, or a JSON object.
 data AvailableTopics = AvailableTopics (Map Topic Size)
 ```
 
-### Generation
+### Generate
 
 ```haskell
 generate :: Gen AvailableTopics
