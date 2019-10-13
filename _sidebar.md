@@ -4,3 +4,6 @@
     - [Description](testsuite.md#symbiote-test-suite)
     - [First and Second](testsuite.md#first-and-second)
     - [Generation](testsuite.md#generation)
+    - [First Generating, Second Operating](testsuite.md#first-generating-second-operating)
+    - [First Operating, Second Generating](testsuite.md#first-operating-second-generating)
+    - [I'm Finished](testsuite.md#i39m-finished)

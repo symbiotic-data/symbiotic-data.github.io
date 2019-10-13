@@ -23,8 +23,10 @@ that data should be communicated to a different party, implementing the same dat
 
 Currently the supported platforms are:
 
-- Haskell ([symbiote test suite](https://hackage.haskell.org/package/symbiote))
-- PureScript ([symbiote test suite](https://pursuit.purescript.org/package/purescript-symbiote))
+- Haskell
+  - [symbiote test suite](https://hackage.haskell.org/package/symbiote)
+- PureScript
+  - [symbiote test suite](https://pursuit.purescript.org/package/purescript-symbiote)
 
 There are plans for implementations for:
 
@@ -34,3 +36,8 @@ There are plans for implementations for:
 - Objective-C / Swift
 - C# / F#
 - C / C++
+- PHP
+- Ruby
+- Python
+
+If you have any other requested implementations or contributions, feel free to open an issue or pull request!

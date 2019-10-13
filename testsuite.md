@@ -112,4 +112,288 @@ We'll call this message `AvailableTopics`, and it's sent by `First`.
 ```
 
 If `Peer B` disagrees with the topics or sizes, it'll throw an error, and reflect that error back to `Peer A`
-so it can explode loudly as well.
+so it can explode loudly as well. If all is well, then `Peer B` will tell `Peer A` to start:
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+```
+
+
+## First Generating, Second Operating
+
+Now that everything is ready to go, let's get started. First thing is first, `First` will generate a random
+value of type `T` (which we'll call `x :: T`), and a random operation on type `T` as `OperationsOnT`
+(which we'll call `op :: OperationsOnT`), with a size-index of `0`.
+
+Here, it will pack them both together in a message we'll call `Generated` and send it over the wire to
+`Second` (serialized in the type `Target`, remember).
+
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+                
+  (x,op)    ------------->
+            First Generated
+```
+
+Now, `Second` will decode the message and see a value and an operation. All it has to do is perform the
+operation `op` on `x`, and get a result (which we'll call `y`). It sends this result back to `First`
+as a message we'll call `Second Operated`.
+
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+                
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+            Second Operated
+```
+
+
+Next, `First` has to verify that `y` is indeed `op(x)`. If it's not, explode loudly, and tell `Second`
+to do the same. If it's good, then tell `Second` it's their turn, with a message we'll call `YourTurn`.
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+                
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+               YourTurn
+```
+
+## First Operating, Second Generating
+
+The tables have turned! `First` is now operating, and `Second` gets to generate. The entire process is
+exactly the same, just reversed:
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+                
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+               YourTurn
+                
+            <-------------  (x,op)
+           Second Generated
+  y=op(x)   -------------> 
+            First Operated y=op(x)?
+            <-------------   true
+               YourTurn
+```
+
+Perfect. Each peer has now both generated and operated, and has increased their size counter by `1`.
+They will keep doing this until one of them reaches the max generation size. Can you guess which one
+will be... first... in doing so?
+
+## I'm Finished
+
+I guess I gave it away - because `First` generates first, it will also be the first to be finished
+generating. It signals this by sending `ImFinished` instead of `YourTurn`.
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+                
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+               YourTurn
+                
+            <-------------  (x,op)
+           Second Generated
+  y=op(x)   -------------> 
+            First Operated y=op(x)?
+            <-------------   true
+               YourTurn
+               
+                 ....
+                 
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+              ImFinished
+                 
+```
+
+After `Second` receives that `ImFinished` message, it will know to send `ImFinished` also once
+it has verified its last run as well.
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+                
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+               YourTurn
+                
+            <-------------  (x,op)
+           Second Generated
+  y=op(x)   -------------> 
+            First Operated y=op(x)?
+            <-------------   true
+               YourTurn
+               
+                 ....
+                 
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+              ImFinished
+                
+            <-------------  (x,op)
+           Second Generated
+  y=op(x)   -------------> 
+            First Operated y=op(x)?
+            <-------------   true
+              ImFinished
+                 
+```
+
+Now, the entire topic for this test suite has been completed and verified. By using random generation, we
+can verify the _properties_ of our data, instead of cherry-picked unit tests. It can help us catch edge
+cases we didn't consider before hand, or reveal fundamental misunderstandings about how our platform works
+under-the-hood.
+
+Because our scenario only uses one topic `T`, both peers will know that they are finished, and exit without
+failure.
+
+
+```
+ ________                   ________
+|  First |                 | Second |
+|________|                 |________|
+| Peer A |      Socket     | Peer B |
+|        |  -------------- |        |
+|________|     (Target)    |________|
+|    T   |                 |   T    |
+ \______/                   \______/ 
+            ------------->
+            AvailableTopics
+            <-------------
+                Start
+                
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+               YourTurn
+                
+            <-------------  (x,op)
+           Second Generated
+  y=op(x)   -------------> 
+            First Operated y=op(x)?
+            <-------------   true
+               YourTurn
+               
+                 ....
+                 
+  (x,op)    ------------->
+            First Generated
+            <-------------  y=op(x)
+ y=op(x)?   Second Operated
+   true     ------------->
+              ImFinished
+                
+            <-------------  (x,op)
+           Second Generated
+  y=op(x)   -------------> 
+            First Operated y=op(x)?
+            <-------------   true
+              ImFinished
+
+ ________                   ________
+|  Done  |                 |  Done  |
+|________|                 |________|
+```
