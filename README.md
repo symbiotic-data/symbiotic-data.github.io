@@ -16,7 +16,7 @@ rigorously defined.
 ----------------
 
 The backbone of insurance that these types are indeed correctly serialized and interpreted across-the-board,
-is from the [Symbiote Test Suite](), a protocol specifying how randomly generated data and operations on
+is from the [Symbiote Test Suite](/testsuite), a protocol specifying how randomly generated data and operations on
 that data should be communicated to a different party, implementing the same data type.
 
 ## Supported Platforms

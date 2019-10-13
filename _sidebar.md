@@ -1,2 +1,4 @@
-- [Home](README.md)
+- [Home](/)
 - [Symbiote Test Suite](testsuite.md)
+  - [First and Second](testsuite.md#first-and-second)
+  - [Generation](testsuite.md#generation)
