@@ -7,3 +7,7 @@
     - [First Generating, Second Operating](testsuite.md#first-generating-second-operating)
     - [First Operating, Second Generating](testsuite.md#first-operating-second-generating)
     - [I'm Finished](testsuite.md#i39m-finished)
+  - [Definitions](testsuitetypes.md)
+    - [Topic](testsuitetypes.md#topic)
+    - [Size](testsuitetypes.md#size)
+    - [AvailableTopics](testsuitetypes.md#availabletopics)
