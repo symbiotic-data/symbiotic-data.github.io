@@ -38,7 +38,7 @@ the encoding mechanism used here will do a standard UTF-8 encoding with a 32-bit
 ```haskell
 encodeBinary :: Topic -> ByteString
 encodeBinary (Topic t) =
-  (intAsByteString (length t :: Int32))
+  (intAsByteStringBE (length t :: Int32))
     ++ (stringAsByteString t)
 ```
 
@@ -73,7 +73,7 @@ encodeJson (Size s) = intAsJson s
 
 ```haskell
 encodeBinary :: Size -> ByteString
-encodeBinary (Size s) = intAsByteString s
+encodeBinary (Size s) = intAsByteStringBE s
 ```
 
 ## AvailableTopics
@@ -112,7 +112,7 @@ to each other, and the only thing we have have to worry about is storing _how ma
 ```haskell
 encodeBinary :: AvailableTopics -> ByteString
 encodeBinary (AvailableTopics ts) =
-  (intAsByteString (length ts :: Int32))
+  (intAsByteStringBE (length ts :: Int32))
     ++ (arrayAsByteString (map pairToByteString (mapToArray ts)))
   where
     pairToByteString :: (Topic, Size) -> ByteString

@@ -40,5 +40,6 @@ There are plans for implementations for:
 - Ruby
 - Python
 - Go
+- D
 
 If you have any other requested implementations or contributions, feel free to open an issue or pull request!
