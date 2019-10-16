@@ -15,6 +15,7 @@
   - [Floating Point](data.md#floating-point)
     - [Float32](data.md#float32)
     - [Float64](data.md#float64)
+  - [UTF-8 String](data.md#utf-8-string)
 - [Symbiote Test Suite](testsuite.md)
   - Summary
     - [Description](testsuite.md#symbiote-test-suite)

@@ -329,3 +329,27 @@ encodeBinary x = floatAsByteStringBE x
 encodeBinary :: Float64 -> ByteString
 encodeBinary x = floatAsByteStringLE x
 ```
+
+## UTF-8 String
+
+All strings must be valid UTF-8 characters, especially with respect to surrogate codes between `0xD800` and
+`0xDFFF` - with respect to [RFC 3629](https://en.wikipedia.org/wiki/UTF-8#Invalid_code_points). Conversion
+a 'la CESU-8 may or may not be defined with this data type.
+
+### JSON
+
+Uses standard JSON Strings
+
+```haskell
+encodeJson :: String -> Json
+encodeJson x = stringAsJson x
+```
+
+### Binary
+
+Encodes to a ByteString as [standard UTF-8](https://en.wikipedia.org/wiki/UTF-8#Description).
+
+```haskell
+encodeBinary :: String -> ByteString
+encodeBinary x = utf8AsByteString x
+```
