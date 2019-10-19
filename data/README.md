@@ -453,6 +453,50 @@ encodeBinary x = case x of
   Cons y ys -> y ++ (encodeBinary ys)
 ```
 
+#### Vector8
+
+A dynamically sized array that limits the max size to `2^8` elements
+
+##### JSON
+
+Uses standard JSON Arrays
+
+```haskell
+encodeJson :: Vector8 Json -> Json
+encodeJson x = arrayAsJson x
+```
+
+##### Binary
+
+Prefixes the length of the array as a 8-bit unsigned integer, big-endian, before concatenating all contents.
+
+```haskell
+encodeBinary :: Vector8 ByteString -> ByteString
+encodeBinary x = (uintAsByteStringBE l) ++ (concatVector8 x)
+```
+
+#### Vector16
+
+A dynamically sized array that limits the max size to `2^16` elements
+
+##### JSON
+
+Uses standard JSON Arrays
+
+```haskell
+encodeJson :: Vector16 Json -> Json
+encodeJson x = arrayAsJson x
+```
+
+##### Binary
+
+Prefixes the length of the array as a 16-bit unsigned integer, big-endian, before concatenating all contents.
+
+```haskell
+encodeBinary :: Vector16 ByteString -> ByteString
+encodeBinary x = (uintAsByteStringBE l) ++ (concatVector16 x)
+```
+
 #### Vector32
 
 A dynamically sized array that limits the max size to `2^32` elements
@@ -578,3 +622,112 @@ encodeBinary x = case x of
   Left y -> (byteAsByteString 0) ++ y
   Right z -> (byteAsByteString 1) ++ z
 ```
+
+## Sophisticated Composites
+
+### Mappings
+
+#### StringMap8
+
+Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+as the case with JavaScript.
+
+##### JSON
+
+Serialized as a JSON object
+
+```haskell
+encodeJson :: StringMap8 Json -> Json
+encodeJson x = stringMap8AsJson x
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 8-bit unsigned integer.
+
+```haskell
+encodeBinary :: StringMap8 ByteString -> ByteString
+encodeBinary x = concatVector8 (map tupleToByteString (stringMap8AsVector8 x))
+  where
+    tupleToByteString :: Tuple String ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
+#### StringMap16
+
+Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+as the case with JavaScript.
+
+##### JSON
+
+Serialized as a JSON object
+
+```haskell
+encodeJson :: StringMap16 Json -> Json
+encodeJson x = stringMap16AsJson x
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 16-bit unsigned integer.
+
+```haskell
+encodeBinary :: StringMap16 ByteString -> ByteString
+encodeBinary x = concatVector16 (map tupleToByteString (stringMap16AsVector16 x))
+  where
+    tupleToByteString :: Tuple String ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
+#### StringMap32
+
+Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+as the case with JavaScript.
+
+##### JSON
+
+Serialized as a JSON object
+
+```haskell
+encodeJson :: StringMap32 Json -> Json
+encodeJson x = stringMap32AsJson x
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 32-bit unsigned integer.
+
+```haskell
+encodeBinary :: StringMap32 ByteString -> ByteString
+encodeBinary x = concatVector32 (map tupleToByteString (stringMap32AsVector32 x))
+  where
+    tupleToByteString :: Tuple String ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
+#### StringMap64
+
+Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+as the case with JavaScript.
+
+##### JSON
+
+Serialized as a JSON object
+
+```haskell
+encodeJson :: StringMap64 Json -> Json
+encodeJson x = stringMap64AsJson x
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 64-bit unsigned integer.
+
+```haskell
+encodeBinary :: StringMap64 ByteString -> ByteString
+encodeBinary x = concatVector64 (map tupleToByteString (stringMap64AsVector64 x))
+  where
+    tupleToByteString :: Tuple String ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
