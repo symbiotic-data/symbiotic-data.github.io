@@ -300,7 +300,151 @@ encodeBinary :: Uint64 -> ByteString
 encodeBinary x = uintAsByteStringLE x
 ```
 
-> TODO Integers of arbitrary precision
+#### Multiple Precision
+
+##### Integer8
+
+Arbitrary precision signed integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^8` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Integer8 -> Json
+encodeJson x = stringAsJson (integerAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-246), but with the concern that the length of unrolled bytes is an 8-bit unsigned integer.
+
+##### Integer16
+
+Arbitrary precision signed integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^16` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Integer16 -> Json
+encodeJson x = stringAsJson (integerAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-246), but with the concern that the length of unrolled bytes is a 16-bit unsigned integer.
+
+##### Integer32
+
+Arbitrary precision signed integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^32` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Integer32 -> Json
+encodeJson x = stringAsJson (integerAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-246), but with the concern that the length of unrolled bytes is a 32-bit unsigned integer.
+
+##### Integer64
+
+Arbitrary precision signed integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^64` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Integer64 -> Json
+encodeJson x = stringAsJson (integerAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-246), but with the concern that the length of unrolled bytes is a 64-bit unsigned integer.
+
+##### Natural8
+
+Arbitrary precision unsigned integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^8` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Natural8 -> Json
+encodeJson x = stringAsJson (naturalAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-306), but with the concern that the length of unrolled bytes is an 8-bit unsigned integer.
+
+##### Natural16
+
+Arbitrary precision unsigned integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^16` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Natural16 -> Json
+encodeJson x = stringAsJson (naturalAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-306), but with the concern that the length of unrolled bytes is a 16-bit unsigned integer.
+
+##### Natural32
+
+Arbitrary precision unsigned integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^32` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Natural32 -> Json
+encodeJson x = stringAsJson (naturalAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-306), but with the concern that the length of unrolled bytes is a 32-bit unsigned integer.
+
+##### Natural64
+
+Arbitrary precision unsigned integer, implemented as (for instance) [GNU MP](https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/index.html#Top), but with a max unrolled length of `2^64` bytes long.
+
+###### JSON
+
+Uses a string encoding of the integer value, because not every platform can support very large integer
+values during JSON decoding.
+
+```haskell
+encodeJson :: Natural64 -> Json
+encodeJson x = stringAsJson (naturalAsString x)
+```
+
+###### Binary
+
+Performed via [cereal byte-unrolling](http://hackage.haskell.org/package/cereal-0.5.8.1/docs/src/Data.Serialize.html#line-306), but with the concern that the length of unrolled bytes is a 64-bit unsigned integer.
 
 ### Floating Point
 
@@ -358,7 +502,27 @@ encodeBinary :: Float64 -> ByteString
 encodeBinary x = floatAsByteStringLE x
 ```
 
-> TODO Scientific Numbers of Arbitrary Precision
+#### Scientific
+
+A (lossless) [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) implementation
+
+##### JSON
+
+Encoded as a JSON String, in canonical scientific notation - an exponential field (`*10^n`) is always
+present, even when `n == 0`, and prefixes its sign in all cases (i.e. `9e3` is `9e+3`). Likewise,
+the coefficient is always `-10 < c < 10` - no engineering notation is allowed. Furthermore,
+the coefficient _never_ includes trailing zeros - i.e. `9.230e+0` is `9.23e+0`. Moreover, when the value
+clearly doesn't need a decimal place, it should be omitted - i.e. `9.0e+3` is `9e+3`.
+
+```haskell
+encodeJson :: Scientific -> Json
+encodeJson x = stringAsJson (scientificToString x)
+```
+
+##### Binary
+
+> TODO Binary implementation for Scientific
+
 
 ### UTF-8 String
 
@@ -386,27 +550,214 @@ encodeBinary x = utf8AsByteString x
 
 ## Casual
 
-### DateTime
+### Chronological
+
+#### Date
+
+Any date system that keeps track of year, month, and day. Years are biased in the
+[Common Era](https://en.wikipedia.org/wiki/Common_Era), and can range from `-2^15` to `2^15-1`.
+
+```haskell
+data Date = Date
+  (year :: Int16)
+  (month :: Uint8)
+  (day :: Uint8)
+```
+
+##### JSON
+
+Formatted as an [ISO 8601 Calendar Date](https://en.wikipedia.org/wiki/ISO_8601#Calendar_dates) / "military
+date" string `YYYYMMDD`.
+
+```haskell
+encodeJson :: Date -> Json
+encodeJson x = stringAsJson (iso8601 "YYYYMMDD" x)
+```
+
+##### Binary
+
+Encoded directly as one 16-bit signed integer as the year, and two bytes as the month and day. Although
+there could be a way to encode a practical calendar date as 21-bits (using a 13-bit year, 4-bit month, and
+5-bit day), the conversions would be considerable overhead when dealing with large amounts of date data.
+And "practical" in the sense of Ancient History (3000 B.C.E.) being the limit of dating capability.
+
+```haskell
+encodeByteString :: Date -> ByteString
+encodeByteString (Date year month day) =
+  (intAsByteStringBE year)
+    ++ (uintAsByteStringBE month)
+    ++ (uintAsByteStringBE day)
+```
+
+#### Time
+
+Any time system that keeps track of timezone, hour, minute, second, and millisecond.
+Milliseconds are included because
+most modern systems can emit logs with millisecond precision, and is a likely use case.
+
+```haskell
+data Time = Time
+  (tzhour :: Uint8)
+  (tzminute :: Uint8)
+  (hour :: Uint8)
+  (minute :: Uint8)
+  (second :: Uint8)
+  (millisecond :: Uint16)
+```
+
+##### JSON
+
+Formatted as an [ISO 8601 Time](https://en.wikipedia.org/wiki/ISO_8601#Times) string `hhmmss.sss`.
+
+```haskell
+encodeJson :: Time -> Json
+encodeJson x = stringAsJson (iso8601 "hhmmss.sss" x)
+```
+
+##### Binary
+
+Encoded directly as 5 bytes for timezone, hour, minute, and second, and one 16-bit unsigned integer for
+milliseconds. Although there could be a way to encode a practical time as 38-bits (5-bit hour and tzhour,
+6-bit minute, tzminute and second, 10-bit millisecond), the conversions would be considerable overhead
+when dealing with large amounts of time data.
+
+```haskell
+encodeByteString :: Time -> ByteString
+encodeByteString
+  (Time tzhour tzminute hour minute second millisecond) =
+    (uintAsByteStringBE tzhour)
+      ++ (uintAsByteStringBE tzminute)
+      ++ (uintAsByteStringBE hour)
+      ++ (uintAsByteStringBE minute)
+      ++ (uintAsByteStringBE second)
+      ++ (uintAsByteStringBE millisecond)
+```
+
+#### DateTime
 
 Can be represented internally as any "sane" date / time system.
 
-#### JSON
+```haskell
+data DateTime = Tuple Date Time
+```
 
-Formatted as an [ISO 8601 String](https://en.wikipedia.org/wiki/ISO_8601)
+##### JSON
+
+Formatted as an [ISO 8601 Combined String](https://en.wikipedia.org/wiki/ISO_8601#Combined_date_and_time_representations)
 
 ```haskell
 encodeJson :: DateTime -> Json
 encodeJson x = stringAsJson (iso8601 x)
 ```
 
-> - TODO Binary serialization implementation - minimal as possible, but not 64-bit reliant
-> - TODO Date, Time, Interval (Date,Time,DateTime), Various Precision
+##### Binary
 
-### Email Address
+Concatenation of both formats (total of 11 bytes).
 
-Should be represented in a vaild Email Address format, as per [RFC 5322](https://en.wikipedia.org/wiki/Email_address#Syntax)
+```haskell
+encodeByteString :: DateTime -> ByteString
+encodeByteString (Tuple date time) =
+  (encodeByteStringDate date)
+    ++ (encodeByteStringTime time)
+```
 
-#### JSON
+> - TODO Intervals, Durations
+
+### URI-Like
+
+#### IPV4
+
+```haskell
+data IPV4 = IPV4 Uint8 Uint8 Uint8 Uint8
+```
+
+##### JSON
+
+Formatted as a string to remain unambiguous
+
+```haskell
+encodeJson :: IPV4 -> Json
+encodeJson x = stringAsJson (ipv4AsString x)
+```
+
+##### Binary
+
+Encoded directly as 4 bytes
+
+```haskell
+encodeByteString :: IPV4 -> ByteString
+encodeByteString (IPV4 a b c d) =
+  (uintAsByteStringBE a)
+    ++ (uintAsByteStringBE b)
+    ++ (uintAsByteStringBE c)
+    ++ (uintAsByteStringBE d)
+```
+
+#### IPV6
+
+```haskell
+data IPV6 =
+  IPV6
+    Uint16 Uint16 Uint16 Uint16
+    Uint16 Uint16 Uint16 Uint16
+```
+
+##### JSON
+
+Formatted as a string to remain unambiguous
+
+```haskell
+encodeJson :: IPV6 -> Json
+encodeJson x = stringAsJson (ipv6AsString x)
+```
+
+##### Binary
+
+Encoded directly as 16 bytes
+
+```haskell
+encodeByteString :: IPV6 -> ByteString
+encodeByteString (IPV6 a b c d e f g h) =
+  (uintAsByteStringBE a)
+    ++ (uintAsByteStringBE b)
+    ++ (uintAsByteStringBE c)
+    ++ (uintAsByteStringBE d)
+    ++ (uintAsByteStringBE e)
+    ++ (uintAsByteStringBE f)
+    ++ (uintAsByteStringBE g)
+    ++ (uintAsByteStringBE h)
+```
+
+#### URI
+
+Should be a valid [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Generic_syntax)
+with [Percent Encoding](https://en.wikipedia.org/wiki/Percent-encoding) for all
+reserved, non-valid, and UTF-8 characters in their appropriate components in the URI, while the query may
+have `x-www-form-urlencoded` data.
+
+##### JSON
+
+Formatted as its string representation
+
+```haskell
+encodeJson :: URI -> Json
+encodeJson x = stringAsJson (uriAsString x)
+```
+
+##### Binary
+
+Encoded as a UTF-8 String (though there are only ASCII characters allowed)
+
+```haskell
+encodeByteString :: URI -> ByteString
+encodeByteString x = utf8AsByteString (uriAsString x)
+```
+
+#### Email Address
+
+Should be represented in a vaild ASCII Email Address format, as per [Wikipedia](https://en.wikipedia.org/wiki/Email_address#Syntax) / [RFC 5322](https://tools.ietf.org/html/rfc5322#section-3.4.1).
+
+##### JSON
 
 Formatted as the string representation
 
@@ -415,9 +766,16 @@ encodeJson :: EmailAddress -> Json
 encodeJson x = stringAsJson (emailAddressAsString x)
 ```
 
-> - TODO Binary serialization that takes advantage of pre-processed string
-> - TODO International Email Addresses a 'la https://en.wikipedia.org/wiki/International_email
+##### Binary
 
+Encoded as a UTF-8 String (though there are only ASCII characters allowed)
+
+```haskell
+encodeByteString :: EmailAddress -> ByteString
+encodeByteString x = utf8AsByteString (emailAddressAsString x)
+```
+
+> - TODO International Email Addresses a 'la https://en.wikipedia.org/wiki/International_email
 
 ## Primitive Composites
 
@@ -649,7 +1007,7 @@ Encodes as a dynamically sized array of key-value tuples, where the size is a 8-
 encodeBinary :: StringMap8 ByteString -> ByteString
 encodeBinary x = concatVector8 (map tupleToByteString (stringMap8AsVector8 x))
   where
-    tupleToByteString :: Tuple String ByteString
+    tupleToByteString :: Tuple String ByteString -> ByteString
     tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
 ```
 
@@ -675,7 +1033,7 @@ Encodes as a dynamically sized array of key-value tuples, where the size is a 16
 encodeBinary :: StringMap16 ByteString -> ByteString
 encodeBinary x = concatVector16 (map tupleToByteString (stringMap16AsVector16 x))
   where
-    tupleToByteString :: Tuple String ByteString
+    tupleToByteString :: Tuple String ByteString -> ByteString
     tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
 ```
 
@@ -701,7 +1059,7 @@ Encodes as a dynamically sized array of key-value tuples, where the size is a 32
 encodeBinary :: StringMap32 ByteString -> ByteString
 encodeBinary x = concatVector32 (map tupleToByteString (stringMap32AsVector32 x))
   where
-    tupleToByteString :: Tuple String ByteString
+    tupleToByteString :: Tuple String ByteString -> ByteString
     tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
 ```
 
@@ -727,7 +1085,383 @@ Encodes as a dynamically sized array of key-value tuples, where the size is a 64
 encodeBinary :: StringMap64 ByteString -> ByteString
 encodeBinary x = concatVector64 (map tupleToByteString (stringMap64AsVector64 x))
   where
-    tupleToByteString :: Tuple String ByteString
+    tupleToByteString :: Tuple String ByteString -> ByteString
     tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
 ```
 
+
+
+#### Map8
+
+Polymorphic mapping - can be implemented any way: B-Tree, or unordered - serialization does not restrict
+the implementation.
+
+##### JSON
+
+Serialized as an array of arrays / tuples.
+
+```haskell
+encodeJson :: Map8 Json Json -> Json
+encodeJson x = map tupleToJson (map8AsVector8 x)
+  where
+    tupleToJson :: Tuple Json Json -> Json
+    tupleToJson (Tuple k v) = [k,v]
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 8-bit unsigned integer.
+
+```haskell
+encodeBinary :: Map8 ByteString -> ByteString
+encodeBinary x = concatVector8 (map tupleToByteString (map8AsVector8 x))
+  where
+    tupleToByteString :: Tuple String ByteString -> ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
+#### Map16
+
+Polymorphic mapping - can be implemented any way: B-Tree, or unordered - serialization does not restrict
+the implementation.
+
+##### JSON
+
+Serialized as an array of arrays / tuples.
+
+```haskell
+encodeJson :: Map16 Json Json -> Json
+encodeJson x = map tupleToJson (map16AsVector16 x)
+  where
+    tupleToJson :: Tuple Json Json -> Json
+    tupleToJson (Tuple k v) = [k,v]
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 16-bit unsigned integer.
+
+```haskell
+encodeBinary :: Map16 ByteString -> ByteString
+encodeBinary x = concatVector16 (map tupleToByteString (map16AsVector16 x))
+  where
+    tupleToByteString :: Tuple String ByteString -> ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
+#### Map32
+
+Polymorphic mapping - can be implemented any way: B-Tree, or unordered - serialization does not restrict
+the implementation.
+
+##### JSON
+
+Serialized as an array of arrays / tuples.
+
+```haskell
+encodeJson :: Map32 Json Json -> Json
+encodeJson x = map tupleToJson (map32AsVector32 x)
+  where
+    tupleToJson :: Tuple Json Json -> Json
+    tupleToJson (Tuple k v) = [k,v]
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 32-bit unsigned integer.
+
+```haskell
+encodeBinary :: Map32 ByteString -> ByteString
+encodeBinary x = concatVector32 (map tupleToByteString (map32AsVector32 x))
+  where
+    tupleToByteString :: Tuple String ByteString -> ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
+#### Map64
+
+Polymorphic mapping - can be implemented any way: B-Tree, or unordered - serialization does not restrict
+the implementation.
+
+##### JSON
+
+Serialized as an array of arrays / tuples.
+
+```haskell
+encodeJson :: Map64 Json Json -> Json
+encodeJson x = map tupleToJson (map64AsVector64 x)
+  where
+    tupleToJson :: Tuple Json Json -> Json
+    tupleToJson (Tuple k v) = [k,v]
+```
+
+##### Binary
+
+Encodes as a dynamically sized array of key-value tuples, where the size is a 64-bit unsigned integer.
+
+```haskell
+encodeBinary :: Map64 ByteString -> ByteString
+encodeBinary x = concatVector64 (map tupleToByteString (map64AsVector64 x))
+  where
+    tupleToByteString :: Tuple String ByteString -> ByteString
+    tupleToByteString (Tuple k v) = (encodeByteString k) ++ v
+```
+
+
+### Tries
+
+#### StringTrie8
+
+Recursive `StringMap8`, with values along the way.
+
+````haskell
+data StringTrie8 a = StringMap8 (Tuple (Maybe a) (StringTrie8 a))
+```
+
+##### JSON
+
+Uses a standard JSON Object as the key index
+
+````haskell
+encodeJson :: StringTrie8 Json -> Json
+encodeJson x = stringMap8AsObject (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (StringTrie8 Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: StringTrie8 ByteString -> ByteString
+encodeByteString x = encodeByteStringVector8 (stringMap8AsVector8 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (StringTrie8 ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
+
+#### StringTrie16
+
+Recursive `StringMap16`, with values along the way.
+
+````haskell
+data StringTrie16 a = StringMap16 (Tuple (Maybe a) (StringTrie16 a))
+```
+
+##### JSON
+
+Uses a standard JSON Object as the key index
+
+````haskell
+encodeJson :: StringTrie16 Json -> Json
+encodeJson x = stringMap16AsObject (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (StringTrie16 Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: StringTrie16 ByteString -> ByteString
+encodeByteString x = encodeByteStringVector16 (stringMap16AsVector16 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (StringTrie16 ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
+
+#### StringTrie32
+
+Recursive `StringMap32`, with values along the way.
+
+````haskell
+data StringTrie32 a = StringMap32 (Tuple (Maybe a) (StringTrie32 a))
+```
+
+##### JSON
+
+Uses a standard JSON Object as the key index
+
+````haskell
+encodeJson :: StringTrie32 Json -> Json
+encodeJson x = stringMap32AsObject (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (StringTrie32 Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: StringTrie32 ByteString -> ByteString
+encodeByteString x = encodeByteStringVector32 (stringMap32AsVector32 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (StringTrie32 ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
+
+#### StringTrie64
+
+Recursive `StringMap64`, with values along the way.
+
+````haskell
+data StringTrie64 a = StringMap64 (Tuple (Maybe a) (StringTrie64 a))
+```
+
+##### JSON
+
+Uses a standard JSON Object as the key index
+
+````haskell
+encodeJson :: StringTrie64 Json -> Json
+encodeJson x = stringMap64AsObject (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (StringTrie64 Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: StringTrie64 ByteString -> ByteString
+encodeByteString x = encodeByteStringVector64 (stringMap64AsVector64 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (StringTrie64 ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
+
+#### Trie8
+
+Recursive `Map8`, with values along the way.
+
+````haskell
+data Trie8 k a = Map8 k (Tuple (Maybe a) (Trie8 k a))
+```
+
+##### JSON
+
+Uses nested Arrays
+
+````haskell
+encodeJson :: Trie8 Json Json -> Json
+encodeJson x = map8AsVector8 (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (Trie8 Json Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: Trie8 ByteString ByteString -> ByteString
+encodeByteString x = encodeByteStringVector8 (map8AsVector8 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (Trie8 ByteString ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
+
+#### Trie16
+
+Recursive `Map16`, with values along the way.
+
+````haskell
+data Trie16 k a = Map16 k (Tuple (Maybe a) (Trie16 k a))
+```
+
+##### JSON
+
+Uses nested Arrays
+
+````haskell
+encodeJson :: Trie16 Json Json -> Json
+encodeJson x = map16AsVector16 (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (Trie16 Json Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: Trie16 ByteString ByteString -> ByteString
+encodeByteString x = encodeByteStringVector16 (map16AsVector16 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (Trie16 ByteString ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
+
+#### Trie32
+
+Recursive `Map32`, with values along the way.
+
+````haskell
+data Trie32 k a = Map32 k (Tuple (Maybe a) (Trie32 k a))
+```
+
+##### JSON
+
+Uses nested Arrays
+
+````haskell
+encodeJson :: Trie32 Json Json -> Json
+encodeJson x = map32AsVector32 (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (Trie32 Json Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: Trie32 ByteString ByteString -> ByteString
+encodeByteString x = encodeByteStringVector32 (map32AsVector32 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (Trie32 ByteString ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
+
+#### Trie64
+
+Recursive `Map64`, with values along the way.
+
+````haskell
+data Trie64 k a = Map64 k (Tuple (Maybe a) (Trie64 k a))
+```
+
+##### JSON
+
+Uses nested Arrays
+
+````haskell
+encodeJson :: Trie64 Json Json -> Json
+encodeJson x = map64AsVector64 (map tupleToJson x)
+  where
+    tupleToJson :: Tuple (Maybe Json) (Trie64 Json Json) -> Json
+    tupleToJson (Tuple v y) = [maybeToJson v, encodeJson y]
+```
+
+##### Binary
+
+Encoded as a series of dynamically sized arrays - uses composite `encodeByteString` instances for each level.
+
+```haskell
+encodeByteString :: Trie64 ByteString ByteString -> ByteString
+encodeByteString x = encodeByteStringVector64 (map64AsVector64 (map tupleToByteString x))
+  where
+    tupleToByteString :: Tuple (Maybe ByteString) (Trie64 ByteString ByteString) -> ByteString
+    tupleToByteString (Tuple v y) = (maybeToByteString v) ++ (encodeByteString y)
+```
