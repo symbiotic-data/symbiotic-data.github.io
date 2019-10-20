@@ -1,23 +1,24 @@
 # Home
 
-[Symbiotic-Data](https://github.com/symbiotic-data) is an initiative intended on standardizing
-primitive data types and their serialization formats, on different platforms and programming languages.
+[Symbiotic-Data](https://github.com/symbiotic-data) is an initiative intending to standardize
+primitive data types and their serialization formats, on different platforms, programming languages, and target
+encodings.
 
-Different platforms have different capabilities, preconceptions, and opinions on how data should
-be formatted - this project aims to clean some of that up, and formalize the data, so there's
-less corrections needing to be made by you, the programmer.
+Different platforms have different paradigms, capabilities, preconceptions, and opinions on how data should
+be formatted and stored - this project aims to clarify some of those differences, and formalize the data,
+so there's less corrections needing to be made by the programming community.
 
-Most implementations of each Symbiotic data type for each platform should be as painless and quick
-as possible - most of the time being a no-op. But for some instances, it is necessary to restrict the
-platforms natural understanding of a data type, in order to meet an upper-bound of its intended
-target for communication. Likewise, serialization targets should be as simple as possible, but also
-rigorously defined.
+Most implementations of Symbiotic Data should be as painless and mostly cost-free -
+ideally being a no-op. But for some instances, it is necessary to restrict and refine a
+platform's natural understanding of a data type, in order to meet the common understanding among its peers.
+Similarly, the act of serialization for Symbiotic Data should be as simple and fast as possible, and
+rigorously defined for every data type.
 
 ----------------
 
-The backbone of insurance that these types are indeed correctly serialized and interpreted across-the-board,
-is from the [Symbiote Test Suite](/testsuite), a protocol specifying how randomly generated data and operations on
-that data should be communicated to a different party, implementing the same data type.
+The backbone of the insurance that these types are indeed _correctly_ serialized and interpreted
+across-the-board, is from the [Symbiote Test Suite](/testsuite): a protocol for
+randomly generating data, and testing the communication of that data over-the-wire to another platform.
 
 ## Supported Platforms
 
@@ -28,7 +29,7 @@ Currently the supported platforms are:
 - PureScript
   - [symbiote test suite](https://pursuit.purescript.org/package/purescript-symbiote)
 
-There are plans for implementations for:
+There are planned implementations for:
 
 - JavaScript (by use of the PureScript implementation)
 - Rust
