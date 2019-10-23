@@ -504,7 +504,7 @@ encodeBinary x = floatAsByteStringLE x
 
 #### Scientific
 
-A (lossless) [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) implementation
+A [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation) implementation
 
 ##### JSON
 
@@ -523,6 +523,31 @@ encodeJson x = stringAsJson (scientificToString x)
 
 > TODO Binary implementation for Scientific
 
+#### Ratio
+
+A (lossless) rational number implementation, by [ratios](https://en.wikipedia.org/wiki/Ratio).
+
+```haskell
+data Ratio a = Ratio a a
+```
+
+##### JSON
+
+Encoded as a tuple of the two already encoded values
+
+```haskell
+encodeJson :: Ratio Json -> Json
+encodeJson (Ratio x y) = [x,y]
+```
+
+##### Binary
+
+Encoded as a tuple of the two already encoded values
+
+```haskell
+encodeBinary :: Ratio ByteString -> ByteString
+encodeBinary (Ratio x y) = x ++ y
+```
 
 ### UTF-8 String
 
