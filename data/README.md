@@ -549,28 +549,134 @@ encodeBinary :: Ratio ByteString -> ByteString
 encodeBinary (Ratio x y) = x ++ y
 ```
 
-### UTF-8 String
+### UTF-8 Strings
 
-All strings must be valid UTF-8 characters, especially with respect to surrogate codes between `0xD800` and
+#### Char
+
+All characters must be valid UTF-8 characters, especially with respect to surrogate codes between `0xD800` and
 `0xDFFF` - with respect to [RFC 3629](https://en.wikipedia.org/wiki/UTF-8##Invalid_code_points). Conversion
 a 'la CESU-8 may or may not be defined with this data type.
 
-#### JSON
+##### JSON
 
 Uses standard JSON Strings
 
 ```haskell
-encodeJson :: String -> Json
-encodeJson x = stringAsJson x
+encodeJson :: Char -> Json
+encodeJson x = charAsJson x
 ```
 
-#### Binary
+##### Binary
 
 Encodes to a ByteString as [standard UTF-8](https://en.wikipedia.org/wiki/UTF-8##Description).
 
 ```haskell
-encodeBinary :: String -> ByteString
+encodeBinary :: Char -> ByteString
 encodeBinary x = utf8AsByteString x
+```
+
+#### String8
+
+Where the length of the string is at most `2^8` characters long
+
+```haskell
+data String8 = Vector8 Char
+```
+
+##### JSON
+
+Uses standard JSON Strings
+
+```haskell
+encodeJson :: String8 -> Json
+encodeJson x = stringAsJson x
+```
+
+##### Binary
+
+Encodes to a ByteString as a `Vector8` of `Char`s
+
+```haskell
+encodeBinary :: String8 -> ByteString
+encodeBinary x = vector8ToByteString (map utf8AsByteString (string8AsVector8 x))
+```
+
+#### String16
+
+Where the length of the string is at most `2^16` characters long
+
+```haskell
+data String16 = Vector16 Char
+```
+
+##### JSON
+
+Uses standard JSON Strings
+
+```haskell
+encodeJson :: String16 -> Json
+encodeJson x = stringAsJson x
+```
+
+##### Binary
+
+Encodes to a ByteString as a `Vector16` of `Char`s
+
+```haskell
+encodeBinary :: String16 -> ByteString
+encodeBinary x = vector16ToByteString (map utf8AsByteString (string16AsVector16 x))
+```
+
+#### String32
+
+Where the length of the string is at most `2^32` characters long
+
+```haskell
+data String32 = Vector32 Char
+```
+
+##### JSON
+
+Uses standard JSON Strings
+
+```haskell
+encodeJson :: String32 -> Json
+encodeJson x = stringAsJson x
+```
+
+##### Binary
+
+Encodes to a ByteString as a `Vector32` of `Char`s
+
+```haskell
+encodeBinary :: String32 -> ByteString
+encodeBinary x = vector32ToByteString (map utf8AsByteString (string32AsVector32 x))
+```
+
+#### String64
+
+Where the length of the string is at most `2^64` characters long
+
+```haskell
+data String64 = Vector64 Char
+```
+
+##### JSON
+
+Uses standard JSON Strings
+
+```haskell
+encodeJson :: String64 -> Json
+encodeJson x = stringAsJson x
+```
+
+##### Binary
+
+Encodes to a ByteString as a `Vector64` of `Char`s
+
+```haskell
+encodeBinary :: String64 -> ByteString
+encodeBinary x = vector64ToByteString (map utf8AsByteString (string64AsVector64 x))
 ```
 
 ## Casual
