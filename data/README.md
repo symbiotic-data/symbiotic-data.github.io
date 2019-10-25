@@ -1118,7 +1118,7 @@ encodeBinary x = case x of
 
 #### StringMap8
 
-Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+Mapping where `String8`s are the keys - can be implemented as a hash-map internally, or as a JSON object
 as the case with JavaScript.
 
 ##### JSON
@@ -1144,7 +1144,7 @@ encodeBinary x = concatVector8 (map tupleToByteString (stringMap8AsVector8 x))
 
 #### StringMap16
 
-Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+Mapping where `String16`s are the keys - can be implemented as a hash-map internally, or as a JSON object
 as the case with JavaScript.
 
 ##### JSON
@@ -1170,7 +1170,7 @@ encodeBinary x = concatVector16 (map tupleToByteString (stringMap16AsVector16 x)
 
 #### StringMap32
 
-Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+Mapping where `String32`s are the keys - can be implemented as a hash-map internally, or as a JSON object
 as the case with JavaScript.
 
 ##### JSON
@@ -1196,7 +1196,7 @@ encodeBinary x = concatVector32 (map tupleToByteString (stringMap32AsVector32 x)
 
 #### StringMap64
 
-Mapping where strings are the keys - can be implemented as a hash-map internally, or as a JSON object
+Mapping where `String64`s are the keys - can be implemented as a hash-map internally, or as a JSON object
 as the case with JavaScript.
 
 ##### JSON
