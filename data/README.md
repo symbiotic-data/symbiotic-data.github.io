@@ -716,8 +716,8 @@ And "practical" in the sense of Ancient History (3000 B.C.E.) being the limit of
 encodeByteString :: Date -> ByteString
 encodeByteString (Date year month day) =
   (intAsByteStringBE year)
-    ++ (uintAsByteStringBE month)
-    ++ (uintAsByteStringBE day)
+    ++ (uintAsByteString month)
+    ++ (uintAsByteString day)
 ```
 
 #### Time
@@ -728,7 +728,7 @@ most modern systems can emit logs with millisecond precision, and is a likely us
 
 ```haskell
 data Time = Time
-  (tzhour :: Uint8)
+  (tzhour :: Int8)
   (tzminute :: Uint8)
   (hour :: Uint8)
   (minute :: Uint8)
@@ -756,11 +756,11 @@ when dealing with large amounts of time data.
 encodeByteString :: Time -> ByteString
 encodeByteString
   (Time tzhour tzminute hour minute second millisecond) =
-    (uintAsByteStringBE tzhour)
-      ++ (uintAsByteStringBE tzminute)
-      ++ (uintAsByteStringBE hour)
-      ++ (uintAsByteStringBE minute)
-      ++ (uintAsByteStringBE second)
+    (intAsByteString tzhour)
+      ++ (uintAsByteString tzminute)
+      ++ (uintAsByteString hour)
+      ++ (uintAsByteString minute)
+      ++ (uintAsByteString second)
       ++ (uintAsByteStringBE millisecond)
 ```
 
