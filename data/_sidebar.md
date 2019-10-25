@@ -27,6 +27,7 @@
       - [Float32](data/#float32)
       - [Float64](data/#float64)
       - [Scientific](data/#scientific)
+      - [Ratio](data/#ratio)
     - [UTF-8 Strings](data/#utf-8-strings)
       - [Char](data/#char)
       - [String8](data/#string8)
