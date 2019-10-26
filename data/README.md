@@ -521,7 +521,7 @@ encodeJson x = stringAsJson (scientificToString x)
 
 ##### Binary
 
-> TODO Binary implementation for Scientific
+Uses the same UTF8 string format as JSON, but limited to a `String32`.
 
 #### Ratio
 
