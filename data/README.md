@@ -900,7 +900,7 @@ encodeJson x = stringAsJson (emailAddressAsString x)
 
 ##### Binary
 
-Encoded as a UTF-8 `String32` (though there are only ASCII characters allowed)
+Encoded as a UTF-8 `String16` (though there are only ASCII characters allowed)
 
 ```haskell
 encodeByteString :: EmailAddress -> ByteString
