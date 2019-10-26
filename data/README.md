@@ -877,7 +877,8 @@ encodeJson x = stringAsJson (uriAsString x)
 
 ##### Binary
 
-Encoded as a UTF-8 String (though there are only ASCII characters allowed)
+Encoded as a UTF-8 `String32` (though there are only ASCII characters allowed) - other implementations of `URI8` etc may
+exist in a future version.
 
 ```haskell
 encodeByteString :: URI -> ByteString
