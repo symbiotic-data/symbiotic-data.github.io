@@ -1346,7 +1346,7 @@ encodeBinary x = concatVector64 (map tupleToByteString (map64AsVector64 x))
 
 Recursive `StringMap8`, with values along the way.
 
-````haskell
+```haskell
 data StringTrie8 a = StringMap8 (Tuple (Maybe a) (StringTrie8 a))
 ```
 
@@ -1354,7 +1354,7 @@ data StringTrie8 a = StringMap8 (Tuple (Maybe a) (StringTrie8 a))
 
 Uses a standard JSON Object as the key index
 
-````haskell
+```haskell
 encodeJson :: StringTrie8 Json -> Json
 encodeJson x = stringMap8AsObject (map tupleToJson x)
   where
@@ -1378,7 +1378,7 @@ encodeByteString x = encodeByteStringVector8 (stringMap8AsVector8 (map tupleToBy
 
 Recursive `StringMap16`, with values along the way.
 
-````haskell
+```haskell
 data StringTrie16 a = StringMap16 (Tuple (Maybe a) (StringTrie16 a))
 ```
 
@@ -1386,7 +1386,7 @@ data StringTrie16 a = StringMap16 (Tuple (Maybe a) (StringTrie16 a))
 
 Uses a standard JSON Object as the key index
 
-````haskell
+```haskell
 encodeJson :: StringTrie16 Json -> Json
 encodeJson x = stringMap16AsObject (map tupleToJson x)
   where
@@ -1410,7 +1410,7 @@ encodeByteString x = encodeByteStringVector16 (stringMap16AsVector16 (map tupleT
 
 Recursive `StringMap32`, with values along the way.
 
-````haskell
+```haskell
 data StringTrie32 a = StringMap32 (Tuple (Maybe a) (StringTrie32 a))
 ```
 
@@ -1418,7 +1418,7 @@ data StringTrie32 a = StringMap32 (Tuple (Maybe a) (StringTrie32 a))
 
 Uses a standard JSON Object as the key index
 
-````haskell
+```haskell
 encodeJson :: StringTrie32 Json -> Json
 encodeJson x = stringMap32AsObject (map tupleToJson x)
   where
@@ -1442,7 +1442,7 @@ encodeByteString x = encodeByteStringVector32 (stringMap32AsVector32 (map tupleT
 
 Recursive `StringMap64`, with values along the way.
 
-````haskell
+```haskell
 data StringTrie64 a = StringMap64 (Tuple (Maybe a) (StringTrie64 a))
 ```
 
@@ -1450,7 +1450,7 @@ data StringTrie64 a = StringMap64 (Tuple (Maybe a) (StringTrie64 a))
 
 Uses a standard JSON Object as the key index
 
-````haskell
+```haskell
 encodeJson :: StringTrie64 Json -> Json
 encodeJson x = stringMap64AsObject (map tupleToJson x)
   where
@@ -1474,7 +1474,7 @@ encodeByteString x = encodeByteStringVector64 (stringMap64AsVector64 (map tupleT
 
 Recursive `Map8`, with values along the way.
 
-````haskell
+```haskell
 data Trie8 k a = Map8 k (Tuple (Maybe a) (Trie8 k a))
 ```
 
@@ -1482,7 +1482,7 @@ data Trie8 k a = Map8 k (Tuple (Maybe a) (Trie8 k a))
 
 Uses nested Arrays
 
-````haskell
+```haskell
 encodeJson :: Trie8 Json Json -> Json
 encodeJson x = map8AsVector8 (map tupleToJson x)
   where
@@ -1506,7 +1506,7 @@ encodeByteString x = encodeByteStringVector8 (map8AsVector8 (map tupleToByteStri
 
 Recursive `Map16`, with values along the way.
 
-````haskell
+```haskell
 data Trie16 k a = Map16 k (Tuple (Maybe a) (Trie16 k a))
 ```
 
@@ -1514,7 +1514,7 @@ data Trie16 k a = Map16 k (Tuple (Maybe a) (Trie16 k a))
 
 Uses nested Arrays
 
-````haskell
+```haskell
 encodeJson :: Trie16 Json Json -> Json
 encodeJson x = map16AsVector16 (map tupleToJson x)
   where
@@ -1538,7 +1538,7 @@ encodeByteString x = encodeByteStringVector16 (map16AsVector16 (map tupleToByteS
 
 Recursive `Map32`, with values along the way.
 
-````haskell
+```haskell
 data Trie32 k a = Map32 k (Tuple (Maybe a) (Trie32 k a))
 ```
 
@@ -1546,7 +1546,7 @@ data Trie32 k a = Map32 k (Tuple (Maybe a) (Trie32 k a))
 
 Uses nested Arrays
 
-````haskell
+```haskell
 encodeJson :: Trie32 Json Json -> Json
 encodeJson x = map32AsVector32 (map tupleToJson x)
   where
@@ -1570,7 +1570,7 @@ encodeByteString x = encodeByteStringVector32 (map32AsVector32 (map tupleToByteS
 
 Recursive `Map64`, with values along the way.
 
-````haskell
+```haskell
 data Trie64 k a = Map64 k (Tuple (Maybe a) (Trie64 k a))
 ```
 
@@ -1578,7 +1578,7 @@ data Trie64 k a = Map64 k (Tuple (Maybe a) (Trie64 k a))
 
 Uses nested Arrays
 
-````haskell
+```haskell
 encodeJson :: Trie64 Json Json -> Json
 encodeJson x = map64AsVector64 (map tupleToJson x)
   where
