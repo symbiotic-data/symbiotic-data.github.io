@@ -33,7 +33,7 @@ There are planned implementations for:
 
 - JavaScript (by use of the PureScript implementation)
 - Rust
-- Java / Kotlin
+- Java / Clojure / Kotlin
 - Objective-C / Swift
 - C# / F#
 - C / C++
