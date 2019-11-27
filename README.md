@@ -25,6 +25,7 @@ randomly generating data, and testing the communication of that data over-the-wi
 Currently the supported platforms are:
 
 - Haskell
+  - [symbiotic data implementation](https://github.com/symbiotic-data/symbiotic-haskell)
   - [symbiote test suite](https://hackage.haskell.org/package/symbiote)
 - PureScript
   - [symbiote test suite](https://pursuit.purescript.org/package/purescript-symbiote)
