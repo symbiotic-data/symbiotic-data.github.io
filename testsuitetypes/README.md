@@ -222,6 +222,7 @@ These are the messages sent by the `First` party in the protocol.
 ```haskell
 data First target
   = Topics AvailableTopics
+  | BadStartSubset
   | FirstGenerating Topic (Generating target)
   | FirstOperating Topic (Operating target)
 ```
@@ -233,6 +234,8 @@ encodeJson :: First Json -> Json
 encodeJson x = case x of
   Topics availableTopics ->
     {"availableTopics": encodeJson availableTopics}
+  BadStartSubset ->
+    "badStartSubset"
   FirstGenerating topic generating ->
     { "firstGenerating":
       { "topic": encodeJson topic
@@ -255,12 +258,14 @@ encodeBinary x = case x of
   Topics availableTopics ->
     (byteAsByteString 0)
       ++ (encodeBinary availableTopics)
+  BadStartSubset ->
+    byteAsByteString 1
   FirstGenerating topic generating ->
-    (byteAsByteString 1)
+    (byteAsByteString 2)
       ++ (encodeBinary topic)
       ++ (encodeBinary generating)
   FirstOperating topic operating ->
-    (byteAsByteString 2)
+    (byteAsByteString 3)
       ++ (encodeBinary topic)
       ++ (encodeBinary operating)
 ```
@@ -272,7 +277,7 @@ These are the messages sent by the `Second` party in the protocol.
 ```haskell
 data Second target
   = BadTopics AvailableTopics
-  | Start
+  | Start (Set Topic)
   | SecondOperating (Operating target)
   | SecondGenerating (Generating target)
 ```
@@ -284,7 +289,8 @@ encodeJson :: Second Json -> Json
 encodeJson x = case x of
   BadTopics availableTopics ->
     {"badTopics": encodeJson availableTopics}
-  Start -> stringAsJson "start"
+  Start topics ->
+    {"start": encodeJson topics}
   SecondOperating topic operating ->
     { "secondOperating":
       { "topic": encodeJson topic
@@ -307,7 +313,9 @@ encodeBinary x = case x of
   BadTopics availableTopics ->
     (byteAsByteString 0)
       ++ (encodeBinary availableTopics)
-  Start -> byteAsByteString 1
+  Start topics ->
+    (byteAsByteString 1)
+      ++ (encodeBinary topics)
   SecondOperating topic operating ->
     (byteAsByteString 2)
       ++ (encodeBinary topic)

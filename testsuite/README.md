@@ -128,7 +128,8 @@ We'll call this message `AvailableTopics`, and it's sent by `First`.
 Just to be clear, `AvailableTopics` is a mapping of _topics_ (usually type names) to _sizes_.
 
 If `Peer B` disagrees with the topics or sizes, it'll throw an error, and reflect that error back to `Peer A`
-so it can explode loudly as well. If all is well, then `Peer B` will tell `Peer A` to start:
+so it can explode loudly as well. If all is well, then `Peer B` will tell `Peer A` to start, with the subset of
+`Peer A`'s topics actually in use for this session:
 
 ```
  ________                   ________
