@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Symbiotic Data</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Description">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 
   <!-- Favicon START -->
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -17,21 +13,134 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="theme-color" content="#ffffff">
   <!-- Favicon END -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157806412-2"></script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
 
+   gtag('config', 'UA-157806412-2');
+  </script>
+
+
+  <title>Symbiotic-Data</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://cdn.jsdelivr.net/npm/materialize-social@1.0.3/materialize-social.min.css" rel="stylesheet">
 </head>
 <body>
-  <div id="app"></div>
-  <script>
-    window.$docsify = {
-        name: 'symbiotic-data.io',
-        repo: 'symbiotic-data/symbiotic-data.github.io',
-        auto2top: true,
-        logo: '/logo.png',
-        themeColor: '#000',
-        loadSidebar: true
-    }
-  </script>
-  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-haskell.min.js"></script>
-</body>
+    <nav class="grey darken-3" role="navigation">
+        <div class="nav-wrapper container">
+            <img src="./logo-white.svg" style="height: 90%; margin: 0.1em" />
+            <a id="logo-container" href="https://symbiotic-data.io" class="brand-logo">
+                Symbiotic-Data
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="https://docs.symbiotic-data.io">
+                    <i class="material-icons left">library_books</i>
+                    Docs
+                </a></li>
+                <li><a href="https://github.com/symbiotic-data">
+                    <i class="material-icons left fa fa-github"></i>
+                    GitHub
+                </a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="https://docs.symbiotic-data.io">
+                    <i class="material-icons left">library_books</i>
+                    Docs
+                </a></li>
+                <li><a href="https://github.com/symbiotic-data">
+                    <i class="material-icons left fa fa-github"></i>
+                    GitHub
+                </a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+<!-- Banner -->
+
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center grey-text darken-4">Symbiotic-Data</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Serialization Standard to help different platforms Communicate</h5>
+      </div>
+      <div class="row center">
+        <a href="https://docs.symbiotic-data.io" id="download-button" class="btn-large waves-effect waves-light blue-grey darken-2">Read The Docs</a>
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center blue-grey-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">Speeds up development</h5>
+
+            <p class="light">Ever been faced with the challenge of figuring out why your data type isn't being decoded or encoded properly? More than likely, it's due to the language or library you're using, and its opinions on how some data type or another should be encoded.
+            </p><p class="light">We've taken care of identifying these discrepencies, and eliminating them from this library - when you encode with symbiotic-data, you can be confident it will be decoded into exactly what was sent.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center blue-grey-text"><i class="material-icons">verified_user</i></h2>
+            <h5 class="center">Robust and Well Tested</h5>
+
+            <p class="light">The serializations for the various data types have been verified with <a href="https://en.wikipedia.org/wiki/QuickCheck">property-based automated testing</a>, catching any discrepencies potentially existing in the implementation.</p>
+            <p class="light">By randomly generating test cases, the integrity of the implementations can be ensured much more strongly than unit tests. Furthermore, every test verifies the algebraic properties of the data types themselves, maintaining semantic integrity.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center blue-grey-text"><i class="material-icons">directions_transit</i></h2>
+            <h5 class="center">Convenient and Performant</h5>
+
+            <p class="light">Each implementation adheres as closely as possible to the conventions of the language you're using; if at all possible, all operations will be costless. However, if your platform has a wildly different opinion of how "things should be", then we'll compensate where necessary.</p>
+            <p class="light">Furthermore, if a platform plainly does not support all features in the Symbiotic-Data suite, we'll abstain from adding it; to refrain from including exotic dependencies into your tree. Separate packages will suit those needs.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <br><br>
+  </div>
+
+  <footer class="page-footer blue-grey">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Contribuition</h5>
+          <p class="grey-text text-lighten-4">If you find yourself bored or yerning for an implementation in your language of choice, please <a href="https://github.com/symbiotic-data/symbiotic-data.github.io/issues/new?assignees=&labels=language+addition&template=language-support-request.md&title=%5BLanguage+Addition%5D+%3Clanguage+name+here%3E" class="blue-grey-text text-lighten-3">tell us</a>! </p>
+
+          <br/>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="js/init.js"></script>
+
+  </body>
 </html>

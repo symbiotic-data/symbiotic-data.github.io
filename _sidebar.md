@@ -1,8 +1,0 @@
-- [Home](/)
-- [Symbiotic Data](data/)
-  - [Primitives](data/#primitives)
-  - [Casual](data/#casual)
-  - [Primitive Composites](data/#primitive-composites)
-  - [Sophisticated Composites](data/#sophisticated-composites)
-- [Symbiote Test Suite](testsuite/)
-  - [Definitions](testsuitetypes/)
